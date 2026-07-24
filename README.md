@@ -1,4 +1,4 @@
-This is the grade evaluator and archiver for Lab 1.
+**Lab 1: Grade Evaluator & Archiver**
 
 This project consists of two parts: the `grade-evaluator.py` Python script, which reads a grades CSV file and calculates a student's GPA, pass/fail status, and eligibility for resubmission; and the `organizer.sh` Bash script, which archives the grades CSV file and resets the workspace for the next set of grades.
 
