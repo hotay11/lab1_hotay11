@@ -88,29 +88,25 @@ def evaluate_grades(data):
     passed = formative_score >= 50 and summative_score >= 50
     status = "PASSED" if passed else "FAILED"
 
-    # e) Finds failed formative assignments with the highest weight ===
+    # e) Finds failed formative assignments with the highest weight — runs regardless of overall pass/fail ===
+    failed_formatives = [row for row in formative_rows if row['score'] < 50]
     resubmission_candidates = []
-    if not passed:
-        failed_formatives = [row for row in formative_rows if row['score'] < 50]
-        if failed_formatives:
-            highest_weight = failed_formatives[0]['weight']
-            for row in failed_formatives[1:]:
-                if row['weight'] > highest_weight:
-                    highest_weight = row['weight']
-
-            resubmission_candidates = [row for row in failed_formatives if row['weight'] == highest_weight]
+    if failed_formatives:
+        highest_weight = failed_formatives[0]['weight']
+        for row in failed_formatives[1:]:
+            if row['weight'] > highest_weight:
+                highest_weight = row['weight']
+        resubmission_candidates = [row for row in failed_formatives if row['weight'] == highest_weight]
 
     # f) Prints the final decision and resubmission options ===
     print(f"\nFinal Status: {status}")
 
-    if not passed:
-        if resubmission_candidates:
-            print("Eligible for Resubmission:")
-            for row in resubmission_candidates:
-                print(f"  - {row['assignment']} (Weight: {row['weight']}, Score: {row['score']})")
-        else:
-            print("No formative assignments are eligible for resubmission.")
-          
+    if resubmission_candidates:
+        print("Eligible for Resubmission:")
+        for row in resubmission_candidates:
+            print(f"  - {row['assignment']} (Weight: {row['weight']}, Score: {row['score']})")
+    else:
+        print("No formative assignments are eligible for resubmission.")
 
 if __name__ == "__main__":
     # 1. Load the data
